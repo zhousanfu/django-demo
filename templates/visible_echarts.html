@@ -1,0 +1,120 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block content-nav %}
+{% endblock %}#}
+
+
+{% block content %}
+<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+<script type="text/javascript" src="/static/javascript/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+<!-- id="app_id" class="selectpicker" multiple data-live-search="true" -->
+
+<div>
+    <form role="search" method="get" id="echarts" action="./">
+        APP:
+        <select id="app_id" class="selectpicker" name="app">
+            <option value="" selected>全部</option>
+            <option value="18">hello</option>
+            <option value="19">ppx</option>
+            <option value="48">like</option>
+            <option value="49">cube</option>
+            <option value="50">yuanyuan</option>
+            <option value="60">bigo live</option>
+            <option value="66">hello yo</option>
+            <option value="74">imo</option>
+            <option value="98">fanshu</option>
+            <option value="101">indigo</option>
+        </select>
+        拦截通道:
+        <select id="business_id" class="selectpicker" name="bus">
+            <option value="" selected>全部</option>
+            <option value="1"> 弹幕</option>
+            <option value="2">公屏</option>
+            <option value="3">资料</option>
+            <option value="4">短视频</option>
+            <option value="5">搜索屏蔽</option>
+            <option value="6">开播主题</option>
+            <option value="7">音乐</option>
+            <option value="8">房名</option>
+            <option value="9">喇叭</option>
+            <option value="0">私信</option>
+            <option value="1">社区</option>
+            <option value="2">通用</option>
+            <option value="3">搜索屏蔽-新用户</option>
+            <option value="4">音频机审</option>
+            <option value="5">群聊内容</option>
+            <option value="6">like短视频push</option>
+            <option value="7">群聊名称</option>
+            <option value="8">动态</option>
+            <option value="9">帖子</option>
+            <option value="20">昵称</option>
+            <option value="21">个性签名</option>
+            <option value="22">图片OCR</option>
+            <option value="23">群招募</option>
+            <option value="24">hello业务</option>
+            <option value="25">家族</option></option>
+            <option value="26">世界流</option>
+            <option value="27">组合公屏</option>
+            <option value="28">电商</option>
+        </select>
+        <button type="submit"></span>查询</button>
+    </form>
+
+</div>
+</br>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width:80%;height:600px;"></div>
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '各APP文字拦截量统计图'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: [{% for ti in option %} '{{ ti.app_id }}', {% endfor %}]
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: {{ option.0.date|safe }}
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+        {% for d in option %}
+            {
+                name: {{ d.app_id }},
+                type: 'line',
+                stack: '总量',
+                data: {{ d.number|safe }}
+            },
+        {% endfor %}
+        ]
+};
+
+
+    myChart.setOption(option);
+</script>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block content-nav %}
+{% endblock %}#}
+
+
+{% block content %}
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+    <h2>json 文件转 excel<h2></h2>
+    <div>
+        <input type="file" id="files" />
+        <button onclick="jsonToExcel()">导出为Excel</button>
+    </div>
+    <script>
+        var json;
+        var inputElement = document.getElementById("files");
+        inputElement.addEventListener("change", handleFiles, false);
+        function handleFiles() {
+            var selectedFile = document.getElementById("files").files[0];
+            var reader = new FileReader();
+            reader.readAsText(selectedFile, "GBK");
+            reader.onload = function () {
+                json = JSON.parse(this.result);
+            };
+        }
+        function jsonToExcel() {
+            var filename = "write.xlsx";
+            var ws_name = "SheetJS";
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.json_to_sheet(json);
+            XLSX.utils.book_append_sheet(wb, ws, ws_name);
+            XLSX.writeFile(wb, filename);
+        }
+    </script>
+{% endblock %}

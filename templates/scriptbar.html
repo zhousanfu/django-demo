@@ -1,0 +1,116 @@
+{% extends 'xadmin/base_site.html' %}
+
+{% block content-nav %}
+{% endblock %}#}
+
+
+{% block content %}
+<script type="text/javascript" src="/static/javascript/xlsx.core.min.js"></script>
+<script type="text/javascript" src="/static/javascript/jquery.cxcalendar.js"></script>
+<script type="text/javascript" src="/static/javascript/jquery.cxcalendar.min.js"></script>
+<script type="text/javascript" src="/static/javascript/jquery.cxcalendar.languages.js"></script>
+<link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
+
+<style type="text/css">
+	table {
+	    border-collapse: collapse;
+	}
+	th, td {
+	    border: solid 1px #6D6D6D;
+	    padding: 5px 10px;
+	}
+	.mt-sm {margin-top: 8px;}
+	body {
+		background: #f4f4f4;
+		padding: 0;
+		margin: 0;
+	}
+	.container {
+		width: 1024px;
+		margin: 0 auto;
+		background: #fff;
+		padding: 20px;
+		min-height: 100vh;
+	}
+</style>
+
+
+
+<form role="search" method="get" id="searchform" action="./">
+    UID:<input type="text" name="uid" placeholder="UID" value="">
+    开始日期:<input placeholder="开始日期" id="day1" name="day1" value="">
+    结束日期:<input placeholder="结束日期" id="day2" name="day2" value="">
+    发言内容:<input type="text" name="con" placeholder="用户发言内容" value="">
+    拦截通道:<select id="business_id"  form="searchform" name="bus">
+        <option value="" selected>全部</option>
+        <option value="1"> 弹幕</option>
+        <option value="2">公屏</option>
+        <option value="3">资料</option>
+        <option value="4">短视频</option>
+        <option value="5">搜索屏蔽</option>
+        <option value="6">开播主题</option>
+        <option value="7">音乐</option>
+        <option value="8">房名</option>
+        <option value="9">喇叭</option>
+        <option value="10">私信</option>
+        <option value="11">社区</option>
+        <option value="12">通用</option>
+        <option value="13">搜索屏蔽-新用户</option>
+        <option value="14">音频机审</option>
+        <option value="15">群聊内容</option>
+        <option value="16">like短视频push</option>
+        <option value="17">群聊名称</option>
+        <option value="18">动态</option>
+        <option value="19">帖子</option>
+        <option value="20">昵称</option>
+        <option value="21">个性签名</option>
+        <option value="22">图片OCR</option>
+        <option value="23">群招募</option>
+        <option value="24">hello业务</option>
+        <option value="25">家族</option></option>
+        <option value="26">世界流</option>
+        <option value="27">组合公屏</option>
+        <option value="28">电商</option>
+    </select>
+    <button type="submit"></span>查询</button>
+</form>
+
+
+
+{% if intercept_data %}
+<div id="table">
+    <table>
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>产品id</th>
+                <th>uid</th>
+                <th>发言内容</th>
+                <th>敏感词ID</th>
+                <th>关键词</th>
+                <th>国家码</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in intercept_data %}
+            <tr>
+                <td>{{ h.0 }}</td>
+                <td>{{ h.1 }}</td>
+                <td>{{ h.2 }}</td>
+                <td>{{ h.3 }}</td>
+                <td>{{ h.4 }}</td>
+                <td>{{ h.5 }}</td>
+                <td>{{ h.6 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<script>
+    $('#day1').cxCalendar();
+    $('#day2').cxCalendar();
+</script>
+
+{% endblock %}
